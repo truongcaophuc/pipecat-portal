@@ -17,7 +17,7 @@ services:
     #   - .:/app
     #   - /app/__pycache__
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:9090/health',timeout=5).status==200 else 1)"]
       interval: 30s
       timeout: 10s
       retries: 3
