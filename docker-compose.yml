@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  sst-voice-pipecat:
+    image: sst-voice-pipecat:latest
+    container_name: sst-voice-pipecat
+    restart: unless-stopped
+    ports:
+      - "${PORT:-9090}:9090"
+    env_file:
+      - .env
+    environment:
+      - FAST_API_PORT=9090
+      - PYTHONUNBUFFERED=1
+    # Uncomment for development - mount source code
+    # volumes:
+    #   - .:/app
+    #   - /app/__pycache__
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - sst-network
+
+  # Optional: Add Redis for session management
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: sst-redis
+  #   restart: unless-stopped
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - sst-network
+
+networks:
+  sst-network:
+    driver: bridge
+
+# volumes:
+#   redis-data:

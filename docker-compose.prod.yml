@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  # ==========================================
+  # BACKEND SERVICE (Python/Pipecat)
+  # ==========================================
+  backend:
+    build:
+      context: "./evn-demo/Evn Outage Demo/server"
+      dockerfile: Dockerfile
+    container_name: evn-voicebot-backend
+    restart: unless-stopped
+    ports:
+      - "7881:7881"
+
+    # [QUAN TRỌNG] Đọc file .env từ thư mục gốc (nơi chứa file docker-compose này)
+    # Lý do: Để tránh lỗi đường dẫn có dấu cách trong Linux
+    env_file:
+      - .env
+
+    volumes:
+      # Mount file .env vào trong container để code Python đọc được
+      - type: bind
+        source: .env
+        target: /app/.env
+
+    networks:
+      - evn-network
+
+  # ==========================================
+  # FRONTEND SERVICE (IBM Bob Homepage)
+  # ==========================================
+  frontend:
+    build:
+      context: "../bob.ibm.com"
+      dockerfile: Dockerfile
+
+    container_name: evn-voicebot-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - evn-network
+
+networks:
+  evn-network:
+    driver: bridge

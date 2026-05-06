@@ -1,0 +1,10 @@
+python-dotenv
+fastapi[all]
+uvicorn
+pipecat-ai[silero,websocket,google,elevenlabs,openai,webrtc]>=0.0.82
+whisperx
+
+# OpenTelemetry for tracing (Langfuse)
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp-proto-http

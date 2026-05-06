@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__MCP_DOCKER__n8n_get_execution",
+      "mcp__MCP_DOCKER__n8n_get_workflow",
+      "Bash(jq:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(findstr:*)",
+      "mcp__MCP_DOCKER__n8n_get_workflow_structure",
+      "Bash(python -c:*)",
+      "mcp__MCP_DOCKER__n8n_list_executions"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+tmux new -s real-pipecat
+tmux a -t real-pipecat
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/core/local_git_repo/sst_voice_pipecat/venv/lib/python3.12/site-packages/nvidia/cudnn/lib/
+source venv/bin/activate
+
+python server.py 
+
+
+# Xóa build cache (giải phóng ~270GB)
+docker builder prune -af
+
+# Xóa dangling images (layers không còn dùng)
+docker image prune -f
+
