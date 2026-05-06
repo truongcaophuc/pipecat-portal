@@ -2,7 +2,11 @@ python-dotenv
 fastapi[all]
 uvicorn
 pipecat-ai[silero,websocket,google,elevenlabs,openai,webrtc]>=0.0.82
-whisperx
+
+# Torch CPU only (silero VAD) — avoid pulling CUDA libs on CPU-only VMs
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchaudio
 
 # OpenTelemetry for tracing (Langfuse)
 opentelemetry-api
